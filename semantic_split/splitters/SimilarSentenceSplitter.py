@@ -15,6 +15,14 @@ class SimilarSentenceSplitter(Splitter):
         '''
             group_max_sentences: The maximum number of sentences in a group.
         '''
+        if (not isinstance(group_max_sentences, int)
+                or isinstance(group_max_sentences, bool)
+                or group_max_sentences < 1):
+            raise ValueError(
+                f"group_max_sentences must be a positive integer (>= 1), "
+                f"got {group_max_sentences!r}"
+            )
+
         sentences = self.sentence_splitter.split(text)
 
         if len(sentences) == 0:
