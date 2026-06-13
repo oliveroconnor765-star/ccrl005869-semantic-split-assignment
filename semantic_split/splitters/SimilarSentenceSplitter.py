@@ -14,7 +14,19 @@ class SimilarSentenceSplitter(Splitter):
     def split(self, text: str, group_max_sentences=5) -> List[List[str]]:
         '''
             group_max_sentences: The maximum number of sentences in a group.
+                Must be a positive integer (>= 1).
+
+            Raises:
+                ValueError: If group_max_sentences is less than 1. This is
+                    validated up front so invalid values fail fast before any
+                    sentence splitting or embedding work is performed.
         '''
+        if group_max_sentences < 1:
+            raise ValueError(
+                "group_max_sentences must be a positive integer (>= 1), "
+                f"got {group_max_sentences!r}"
+            )
+
         sentences = self.sentence_splitter.split(text)
 
         if len(sentences) == 0:
